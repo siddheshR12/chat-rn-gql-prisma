@@ -2,7 +2,7 @@
  - React native chat app, group chat made with RN, type-script and apollo-graphql client in frontend for caching and gql operations
  - It uses apollo-server express backend for api resolvers, with Prisma orm connected to planet-scale db
 
-
+https://github.com/siddheshR12/chat-rn-gql-prisma/assets/39961439/8a648398-7f05-4e3d-85a6-080f734c6e46
 
 # Auth0 
  setup and links
@@ -31,7 +31,7 @@
  > npx prisma studio --port <any port thats not in user>  // opens prisma studio to access your db in browser, --port command is optional
 
 
-# Apolo Grapql client and server 
+# Apolo Graphql client and server 
  > Backend
  - @apollo/server graphql
  - @graphql-tools/schema, graphql-subscriptions, graphql-ws, ws, graphql-tag

@@ -1,0 +1,14 @@
+# client
+chatAppClient/node_modules
+chatAppClient/.env
+
+
+#amplify-do-not-edit-begin
+chatAppClient/amplify
+chatAppClient/src/aws-exports.js
+chatAppClient/src/amplifyconfiguration.json
+#amplify-do-not-edit-end
+
+# server
+backend/.env
+backend/node_modules

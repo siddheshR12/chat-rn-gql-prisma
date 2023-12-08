@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id             String    @id @default(uuid())
+  name           String?
+  email          String?   @unique
+  emailVerified  Boolean?
+  image          String?
+  username       String?  @unique
+  messages       Message[]
+  conversations  ConversationParticipant[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Conversation {
+  id              String   @id @default(uuid())
+  participants    ConversationParticipant[]
+  messages        Message[] @relation("conversationMessages")
+  latestMessage   Message?   @relation(name: "latestConversationMessage", fields: [latestMessageId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  latestMessageId String?    @unique
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model ConversationParticipant {
+  id              String    @id @default(uuid())
+  user            User      @relation(fields: [userId], references: [id])
+  userId          String
+  conversation    Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  conversationId  String
+  hasSeenLatestMessage Boolean
+
+  @@index([userId])
+  @@index([conversationId])
+}
+
+model Message {
+  id              String        @id @default(uuid())
+  conversation    Conversation  @relation(name: "conversationMessages", fields: [conversationId], references: [id], onDelete: Cascade)
+  conversationId  String
+  isLatestIn      Conversation? @relation("latestConversationMessage")
+  sender          User          @relation(fields: [senderId], references: [id])
+  senderId        String
+  body            String
+  fileUri         String?
+  type            MessageType   @default(TEXT)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([conversationId])
+  @@index([senderId])
+}
+
+enum MessageType {
+  TEXT
+  FILE
+}
